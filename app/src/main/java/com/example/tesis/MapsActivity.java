@@ -22,7 +22,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -92,34 +91,57 @@ public class MapsActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-//        LatLng inicio = new LatLng(-17.019512983700483, -72.02111338452082);
-//        MarkerOptions marcadorInicio = new MarkerOptions();
-//        marcadorInicio.position(inicio);
-//        marcadorInicio.title("Este es tu inicio");
-//        marcadorInicio.draggable(true);
-//        mMap.addMarker(marcadorInicio);
-//        LatLng destino = new LatLng(-17.019512983700483, -72.02111338452082);
-//        MarkerOptions marcadorDestino = new MarkerOptions();
-//        marcadorDestino.position(destino);
-//        marcadorDestino.title("Este es tu destino");
-//        marcadorDestino.draggable(true);
-//        mMap.addMarker(marcadorDestino);
         LatLng inicio = new LatLng(-17.019512983700483, -72.02111338452082);
         LatLng fin = new LatLng(-17.019512983700483, -72.02111338452082);
-        markerPartida = mMap.addMarker(new MarkerOptions().position(inicio).title("Partida").draggable(true));
-        markerDestino = mMap.addMarker(new MarkerOptions().position(fin).title("Destino").draggable(true));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-17.019512983700483, -72.02111338452082), 30));
-        mMap.setOnPolylineClickListener(this);
-        mMap.setOnPolygonClickListener(this);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(inicio, 30));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(fin, 30));
-        mMap.setOnMarkerClickListener(this);
-        mMap.setOnMarkerDragListener(this);
-        String url = obtenerDireccionesURL(inicio, fin);
-        DownloadTask downloadTask = new DownloadTask();
-        downloadTask.execute(url);
+//        markerPartida = mMap.addMarker(new MarkerOptions().position(inicio).title("Partida").draggable(true));
+////        markerDestino = mMap.addMarker(new MarkerOptions().position(fin).title("Destino").draggable(true));
+////        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-17.019512983700483, -72.02111338452082), 18));
+////        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(inicio, 18));
+////        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(fin, 18));
+////        mMap.setOnMarkerClickListener(this);
+////        mMap.setOnMarkerDragListener(this);
+        mapUpdate(inicio, fin);
+
+
+//        String url = obtenerDireccionesURL(inicio, fin);
+//        DownloadTask downloadTask = new DownloadTask();
+//        downloadTask.execute(url);
+
     }
 
+    private void mapUpdate(LatLng originPoint, LatLng destinationPoint) {
+        //mMap.clear();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(false);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + originPoint.latitude + "," + originPoint.longitude
+                + "&destination=" + destinationPoint.latitude + "," + destinationPoint.longitude + "&mode=walking";
+
+        new DownloadTask().execute(url);
+
+        markerPartida = mMap.addMarker(new MarkerOptions().position(originPoint).title("Partida").draggable(true));
+        markerDestino = mMap.addMarker(new MarkerOptions().position(destinationPoint).title("Destino").draggable(true));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-17.019512983700483, -72.02111338452082), 25));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(originPoint, 18));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destinationPoint, 18));
+        mMap.setOnMarkerClickListener(this);
+        mMap.setOnMarkerDragListener(this);
+//        mapUpdate(inicio, fin);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+    }
 
     private String obtenerDireccionesURL(LatLng origin, LatLng dest) {
 
