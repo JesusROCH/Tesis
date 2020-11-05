@@ -24,7 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+//    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
 //    private GoogleMap mMap;
 //    private TextView textLatLong;
 //    private ProgressBar progressBar;
