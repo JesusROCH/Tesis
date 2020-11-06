@@ -24,10 +24,10 @@ import java.util.List;
  */
 public class DirectionFinder {
     private static final String DIRECTION_URL_API = "https://maps.googleapis.com/maps/api/directions/json?";
-    private static final String GOOGLE_API_KEY = "AIzaSyAX_QfsgQT8g6aTmn8aGY2oaTuq4BzIoSc";
-    private DirectionFinderListener listener;
-    private String origin;
-    private String destination;
+    private static final String GOOGLE_API_KEY = "AIzaSyAL3L6TYfymVOH25IgCYbgArGD4mZ4pHg8";
+    private final DirectionFinderListener listener;
+    private final String origin;
+    private final String destination;
 
     public DirectionFinder(DirectionFinderListener listener, String origin, String destination) {
         this.listener = listener;
@@ -55,7 +55,7 @@ public class DirectionFinder {
             try {
                 URL url = new URL(link);
                 InputStream is = url.openConnection().getInputStream();
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
                 String line;
