@@ -134,8 +134,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             PolylineOptions polylineOptions = new PolylineOptions().
                     geodesic(true).
-                    color(Color.GRAY).
-                    width(10);
+                    color(Color.RED).
+                    width(10).
+                    clickable(true);
 
             for (int i = 0; i < route.points.size(); i++)
                 polylineOptions.add(route.points.get(i));
