@@ -11,7 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -19,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -28,8 +32,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, DirectionFinderListener {
 
+    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
     private GoogleMap mMap;
     private EditText etOrigin;
     private EditText etDestination;
@@ -53,9 +58,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnFindPath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendRequest();
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MapsActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION_PERMISSION);
+                } else {
+                    sendRequest();
+                }
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length >0){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                sendRequest();
+            }else{
+                Toast.makeText(this, "Permission Denied!", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void sendRequest() {
@@ -80,6 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setZoomControlsEnabled(true);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -119,7 +141,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         destinationMarkers = new ArrayList<>();
 
         for (Route route : routes) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
+
             ((TextView) findViewById(R.id.tvDuration)).setText(route.duration.text);
             ((TextView) findViewById(R.id.tvDistance)).setText(route.distance.text);
 
@@ -134,14 +156,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             PolylineOptions polylineOptions = new PolylineOptions().
                     geodesic(true).
-                    color(Color.RED).
-                    width(10).
-                    clickable(true);
+                    color(Color.GREEN)
+                    .width(10);
+
+            PolylineOptions rutaCC08ida = new PolylineOptions()
+                    .add(new LatLng(-16.414941, -71.492536))
+                    .add(new LatLng(-16.415216, -71.494284))
+                    .add(new LatLng(-16.416492, -71.494072))
+                    .add(new LatLng(-16.416857, -71.496609))
+                    .add(new LatLng(-16.415499, -71.497178))
+                    .add(new LatLng(-16.413657, -71.499882))
+                    .add(new LatLng(-16.413035, -71.499891))
+                    .add(new LatLng(-16.413056, -71.500478))
+                    .add(new LatLng(-16.413280, -71.500497))
+                    .add(new LatLng(-16.405268, -71.512664))
+                    .add(new LatLng(-16.405201, -71.512795))
+                    .add(new LatLng(-16.403016, -71.516164))
+                    .add(new LatLng(-16.402967, -71.516303))
+                    .add(new LatLng(-16.402277, -71.517215))
+                    .add(new LatLng(-16.402264, -71.517322))
+                    .add(new LatLng(-16.402002, -71.517719))
+                    .add(new LatLng(-16.399419, -71.521565))
+                    .add(new LatLng(-16.399983, -71.522128))
+                    .add(new LatLng(-16.408806, -71.532933))
+                    .add(new LatLng(-16.408325, -71.533418))
+                    .add(new LatLng(-16.407660, -71.533937))
+                    .add(new LatLng(-16.405869, -71.531649))
+                    .geodesic(true)
+                    .color(Color.BLUE)
+                    .width(10);
+
+            PolylineOptions rutaCC08vuelta = new PolylineOptions()
+                    .add(new LatLng(-16.414941, -71.492536))
+                    .add(new LatLng(-16.415215, -71.494276))
+                    .geodesic(true)
+                    .color(Color.RED)
+                    .width(10);
 
             for (int i = 0; i < route.points.size(); i++)
                 polylineOptions.add(route.points.get(i));
 
             polylinePaths.add(mMap.addPolyline(polylineOptions));
+            polylinePaths.add(mMap.addPolyline(rutaCC08ida));
+
+            //mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(-16.414941, -71.492536)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 20));
         }
     }
 }
