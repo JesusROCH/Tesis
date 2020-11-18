@@ -154,7 +154,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green))
                     .title(route.endAddress)
                     .position(route.endLocation)));
-
             PolylineOptions polylineOptions = new PolylineOptions().
                     geodesic(true).
                     color(Color.GREEN)
@@ -234,32 +233,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .geodesic(true)
                     .color(Color.GRAY)
                     .width(10);
-
             originMarkers.add(mMap.addMarker(new MarkerOptions()
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
                     .title("Empresa 15 de Agosto S.A.")
-                    .snippet("Ruta C C08")
+                    .snippet("Recorrido de ida C C08")
                     .position(rutaCC08.getPoints().get(0))));
+            originMarkers.add(mMap.addMarker(new MarkerOptions()
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                    .title("Empresa 15 de Agosto S.A.")
+                    .snippet("Recorrido de vuelta Ruta C C08")
+                    .position(new LatLng(-16.405891, -71.531619))));
 
-//            PolylineOptions rutaCC08vuelta = new PolylineOptions()
-//
-//                    .geodesic(true)
-//                    .color(Color.RED)
-//                    .width(10);
-//            originMarkers.add(mMap.addMarker(new MarkerOptions()
-//                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-//                    .title("Empresa 15 de Agosto S.A.")
-//                    .snippet("Ruta C C08 de Vuelta")
-//                    .position(rutaCC08vuelta.getPoints().get(0))));
+
 
             System.out.println("Tamaño transporte publico" + rutaCC08.getPoints().size());
-            //System.out.println("Tamaño transporte publico" + rutaCC08vuelta.getPoints().size());
             System.out.println("Tamaño usuario" + route.points.size());
 
-            //RUTA C C08 DE IDA
+            //RUTA C-C08
             if (rutaCC08.getPoints().size() > route.points.size()) {
                 int p = 0;
                 for (int i = 0; i < rutaCC08.getPoints().size(); i++) {
+                    double d = distance(route.points.get(p).latitude,rutaCC08.getPoints().get(i).latitude,route.points.get(p).longitude,rutaCC08.getPoints().get(i).longitude);
+                    System.out.println("Distancia:"+d);
                     if (route.points.get(p) == null) {
                         p = 0;
                     } else if (route.points.get(p) == rutaCC08.getPoints().get(i)) {
@@ -289,88 +284,39 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     polylineOptions.add(route.points.get(i));
                 }
             }
-            //RUTA C C08 DE VUELTA
-//            if (rutaCC08vuelta.getPoints().size() > route.points.size()) {
-//                int p = 0;
-//                for (int i = 0; i < rutaCC08vuelta.getPoints().size(); i++) {
-//                    if (route.points.get(p) == null) {
-//                        p = 0;
-//                    } else if (route.points.get(p) == rutaCC08vuelta.getPoints().get(i)) {
-//                        System.out.println("Coincidencia: " + rutacc08vueltaC);
-//                        rutacc08vueltaC++;
-//                        p++;
-//                    }
-//                    polylineOptions.add(route.points.get(p));
-//                }
-//            } else if (rutaCC08vuelta.getPoints().size() < route.points.size()) {
-//                for (int i = 0, p = 0; i < route.points.size(); i++) {
-//                    if (rutaCC08vuelta.getPoints().get(p) == null) {
-//                        p = 0;
-//                    } else if (route.points.get(i) == rutaCC08vuelta.getPoints().get(p)) {
-//                        System.out.println("Coincidencia: " + rutacc08vueltaC);
-//                        rutacc08vueltaC++;
-//                        p++;
-//                    }
-//                    polylineOptions.add(route.points.get(i));
-//                }
-//            } else if (rutaCC08vuelta.getPoints().size() == route.points.size()) {
-//                for (int i = 0; i < route.points.size(); i++) {
-//                    if (route.points.get(i) == rutaCC08vuelta.getPoints().get(i)) {
-//                        System.out.println("Coincidencia: " + rutacc08vueltaC);
-//                        rutacc08vueltaC++;
-//                    }
-//                    polylineOptions.add(route.points.get(i));
-//                }
-//            }
 
 
             polylinePaths.add(mMap.addPolyline(polylineOptions));
             polylinePaths.add(mMap.addPolyline(rutaCC08));
-            //polylinePaths.add(mMap.addPolyline(rutaCC08vuelta));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 20));
         }
     }
-    //                float distancia = formulaHaversine(route.points.get(i), rutaCC08ida.getPoints().get(0));
-//                System.out.println("Distancia: " + distancia);
-
-//            if (rutaCC08ida.getPoints().size() < route.points.size()) {
-//                for (int i = 0; i < rutaCC08ida.getPoints().size(); i++) {
-//                    float distancia = formulaHaversine(route.points.get(i), rutaCC08ida.getPoints().get(i));
-//                    System.out.println("Distancia: " + distancia);
-////                    if (route.points.get(i) == rutaCC08ida.getPoints().get(i)) {
-////                        System.out.println("Puntos de Latitud y Logitud Iguales");
-////                    }
-//                    polylineOptions.add(route.points.get(i));
-//                }
-//            } else if (rutaCC08ida.getPoints().size() > route.points.size()) {
-//
-//            } else {
-//                for (int i = 0; i < route.points.size(); i++) {
-//                    float distancia = formulaHaversine(route.points.get(i), rutaCC08ida.getPoints().get(i));
-//                    System.out.println("Distancia: " + distancia);
-////                    if (route.points.get(i) == rutaCC08ida.getPoints().get(i)) {
-////                        System.out.println("Puntos de Latitud y Logitud Iguales");
-////                    }
-//                    polylineOptions.add(route.points.get(i));
-//                }
-//            }
 
 
-    private float formulaHaversine(LatLng latlng, LatLng latLng1) {
-        float radioTierra = 6378.0F;
-        float difLatitut = convertirRadianes(latlng.latitude - latLng1.latitude);
-        float difLongitude = convertirRadianes(latlng.longitude - latLng1.longitude);
-        float a = alCuadrado(Math.sin(difLatitut / 2)) + alCuadrado(Math.cos(convertirRadianes(latlng.latitude))) + alCuadrado(Math.cos(convertirRadianes(latLng1.latitude))) + alCuadrado(Math.sin(difLongitude / 2));
-        float c = (float) (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+    /**
+     * Calculate distance between two points in latitude and longitude taking
+     * into account height difference. If you are not interested in height
+     * difference pass 0.0. Uses Haversine method as its base.
+     *
+     * lat1, lon1 Start point lat2, lon2 End point el1 Start altitude in meters
+     * el2 End altitude in meters
+     * @returns Distance in Meters
+     */
+    public static double distance(double lat1, double lat2, double lon1,
+                                  double lon2) {
 
-        return radioTierra * convertirRadianes(c);
-    }
+        final int R = 6371; // Radius of the earth
 
-    private float alCuadrado(double valor) {
-        return (float) Math.pow(valor, 2);
-    }
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance/2) * Math.sin(latDistance/2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance/2) * Math.sin(lonDistance/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c * 1000; // convert to meters
 
-    private float convertirRadianes(double v) {
-        return (float) ((float) Math.toDegrees(Math.PI / 180) * v);
+        distance = Math.pow(distance, 2);
+
+        return Math.sqrt(distance);
     }
 }
