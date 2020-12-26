@@ -41,7 +41,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private List<Marker> destinationMarkers = new ArrayList<>();
     private List<Polyline> polylinePaths = new ArrayList<>();
     private ProgressDialog progressDialog;
-    private int rutacc08C,rutae011C;
+    private int rutacc08C = 0, rutae011C = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -159,8 +159,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     color(Color.GREEN)
                     .width(10);
 
+            for (int i = 0; i < route.points.size(); i++)
+                polylineOptions.add(route.points.get(i));
+
+            polylinePaths.add(mMap.addPolyline(polylineOptions));
+
             PolylineOptions rutaCC08 = new PolylineOptions()
-                    .add(new LatLng(-16.414941, -71.492536))
+                    .add(new LatLng(-16.414925, -71.492546))
                     .add(new LatLng(-16.415216, -71.494284))
                     .add(new LatLng(-16.416492, -71.494072))
                     .add(new LatLng(-16.416857, -71.496609))
@@ -182,6 +187,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .add(new LatLng(-16.408325, -71.533418))
                     .add(new LatLng(-16.407660, -71.533937))
                     .add(new LatLng(-16.405869, -71.531649))
+                    //recorrido de vuelta
                     .add(new LatLng(-16.405891, -71.531619))
                     .add(new LatLng(-16.406521, -71.531150))
                     .add(new LatLng(-16.407015, -71.530597))
@@ -233,16 +239,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .geodesic(true)
                     .color(Color.GRAY)
                     .width(10);
-            originMarkers.add(mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                    .title("Empresa 15 de Agosto S.A.")
-                    .snippet("Recorrido de ida")
-                    .position(rutaCC08.getPoints().get(0))));
-            originMarkers.add(mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                    .title("Empresa 15 de Agosto S.A.")
-                    .snippet("Recorrido de vuelta")
-                    .position(new LatLng(-16.405891, -71.531619))));
+
 
             PolylineOptions rutae011 = new PolylineOptions()
                     .add(new LatLng(-16.389760, -71.547713))
@@ -415,55 +412,202 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .geodesic(true)
                     .color(Color.GRAY)
                     .width(10);
-            originMarkers.add(mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                    .title("Empresa 24 de Diciembre S.R.L.")
-                    .snippet("Recorrido de ida")
-                    .position(rutae011.getPoints().get(0))));
-            originMarkers.add(mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                    .title("Empresa 24 de Diciembre S.R.L.")
-                    .snippet("Recorrido de vuelta")
-                    .position(new LatLng(-16.404306, -71.527379))));
+
+            PolylineOptions rutaa011a = new PolylineOptions()
+                    .add(new LatLng(-16.461694, -71.524351))
+                    .add(new LatLng(-16.461146, -71.523804))
+                    .add(new LatLng(-16.460531, -71.523171))
+                    .add(new LatLng(-16.459741, -71.522353))
+                    .add(new LatLng(-16.460034, -71.522101))
+                    .add(new LatLng(-16.460497, -71.521578))
+                    .add(new LatLng(-16.460466, -71.521433))
+                    .add(new LatLng(-16.459998, -71.520958))
+                    .add(new LatLng(-16.459517, -71.520523))
+                    .add(new LatLng(-16.459134, -71.520146))
+                    .add(new LatLng(-16.458750, -71.519767))
+                    .add(new LatLng(-16.458227, -71.519241))
+                    .add(new LatLng(-16.457797, -71.518822))
+                    .add(new LatLng(-16.457216, -71.518240))
+                    .add(new LatLng(-16.456538, -71.517615))
+                    .add(new LatLng(-16.455964, -71.517035))
+                    .add(new LatLng(-16.455528, -71.516592))
+                    .add(new LatLng(-16.455159, -71.516204))
+                    .add(new LatLng(-16.455747, -71.515549))
+                    .add(new LatLng(-16.455251, -71.514994))
+                    .add(new LatLng(-16.455706, -71.514538))
+                    .add(new LatLng(-16.455133, -71.513966))
+                    .add(new LatLng(-16.454549, -71.513392))
+                    .add(new LatLng(-16.454377, -71.513765))
+                    .add(new LatLng(-16.454349, -71.513958))
+                    .add(new LatLng(-16.453953, -71.513529))
+                    .add(new LatLng(-16.453629, -71.513272))
+                    .add(new LatLng(-16.453176, -71.513167))
+                    .add(new LatLng(-16.452602, -71.513038))
+                    .add(new LatLng(-16.452170, -71.512915))
+                    .add(new LatLng(-16.451321, -71.512607))
+                    .add(new LatLng(-16.450704, -71.512451))
+                    .add(new LatLng(-16.449997, -71.512274))
+                    .add(new LatLng(-16.449853, -71.512658))
+                    .add(new LatLng(-16.449704, -71.513149))
+                    .add(new LatLng(-16.449637, -71.513597))
+                    .add(new LatLng(-16.449609, -71.514155))
+                    .add(new LatLng(-16.449509, -71.514614))
+                    .add(new LatLng(-16.449234, -71.515250))
+                    .add(new LatLng(-16.448925, -71.515902))
+                    .add(new LatLng(-16.448246, -71.516221))
+                    .add(new LatLng(-16.447937, -71.516334))
+                    .add(new LatLng(-16.447003, -71.516205))
+                    .add(new LatLng(-16.446725, -71.516924))
+                    .add(new LatLng(-16.446473, -71.517546))
+                    .add(new LatLng(-16.446072, -71.518209))
+                    .add(new LatLng(-16.445744, -71.518581))
+                    .add(new LatLng(-16.445153, -71.518453))
+                    .add(new LatLng(-16.444237, -71.518158))
+                    .add(new LatLng(-16.443756, -71.518032))
+                    .add(new LatLng(-16.443620, -71.518298))
+                    .add(new LatLng(-16.443342, -71.518730))
+                    .add(new LatLng(-16.443249, -71.519033))
+                    .add(new LatLng(-16.443262, -71.519443))
+                    .add(new LatLng(-16.443285, -71.520156))
+                    .add(new LatLng(-16.443316, -71.520875))
+                    .add(new LatLng(-16.443357, -71.521602))
+                    .add(new LatLng(-16.443401, -71.522340))
+                    .add(new LatLng(-16.443342, -71.523118))
+                    .add(new LatLng(-16.442748, -71.524137))
+                    .add(new LatLng(-16.442425, -71.524690))
+                    .add(new LatLng(-16.442252, -71.525081))
+                    .add(new LatLng(-16.441661, -71.525291))
+                    .add(new LatLng(-16.440876, -71.525555))
+                    .add(new LatLng(-16.441163, -71.526421))
+                    .add(new LatLng(-16.441406, -71.527192))
+                    .add(new LatLng(-16.441670, -71.527939))
+                    .add(new LatLng(-16.441979, -71.528848))
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+//                    .add(new LatLng())
+                    .geodesic(true)
+                    .color(Color.GRAY)
+                    .width(10);
 
 
-            System.out.println("Tamaño transporte publico" + rutaCC08.getPoints().size());
-            System.out.println("Tamaño transporte publico" + rutae011.getPoints().size());
-            System.out.println("Tamaño usuario" + route.points.size());
+            System.out.println("Tamaño Ruta C C08: " + rutaCC08.getPoints().size());
+            System.out.println("Tamaño Ruta E 011: " + rutae011.getPoints().size());
+            System.out.println("Tamaño usuario: " + route.points.size());
 
             //RUTA C-C08
             if (rutaCC08.getPoints().size() > route.points.size()) {
-                int p = 0;
                 for (int i = 0; i < rutaCC08.getPoints().size(); i++) {
-                    double d = distance(route.points.get(p).latitude,rutaCC08.getPoints().get(i).latitude,route.points.get(p).longitude,rutaCC08.getPoints().get(i).longitude);
-                    System.out.println("Distancia:"+d);
-                    if (route.points.get(p) == null) {
-                        p = 0;
-                    } else if (d<1000) {
-                        System.out.println("Coincidencia: " + rutacc08C);
-                        rutacc08C++;
-                        p++;
+                    if (route.points.size() > i) {
+                        double d = distance(route.points.get(i).latitude, rutaCC08.getPoints().get(i).latitude, route.points.get(i).longitude, rutaCC08.getPoints().get(i).longitude);
+                        System.out.println("Distancia:" + d);
+                        if (d < 1000) {
+                            System.out.println("Coincidencia: " + rutacc08C);
+                            rutacc08C++;
+                        }
+                        polylineOptions.add(route.points.get(i));
                     }
-                    polylineOptions.add(route.points.get(p));
                 }
             } else if (rutaCC08.getPoints().size() < route.points.size()) {
-                for (int i = 0, p = 0; i < route.points.size(); i++) {
-                    double d = distance(route.points.get(p).latitude,rutaCC08.getPoints().get(i).latitude,route.points.get(p).longitude,rutaCC08.getPoints().get(i).longitude);
-                    System.out.println("Distancia:"+d);
-                    if (rutaCC08.getPoints().get(p) == null) {
-                        p = 0;
-                    } else if (d<1000) {
-                        System.out.println("Coincidencia: " + rutacc08C);
-                        rutacc08C++;
-                        p++;
+                for (int i = 0; i < route.points.size(); i++) {
+                    if (rutaCC08.getPoints().size() > i) {
+                        double d = distance(route.points.get(i).latitude, rutaCC08.getPoints().get(i).latitude, route.points.get(i).longitude, rutaCC08.getPoints().get(i).longitude);
+                        System.out.println("Distancia:" + d);
+                        if (d < 1000) {
+                            System.out.println("Coincidencia: " + rutacc08C);
+                            rutacc08C++;
+                        }
+                        polylineOptions.add(route.points.get(i));
                     }
-                    polylineOptions.add(route.points.get(i));
+
                 }
             } else if (rutaCC08.getPoints().size() == route.points.size()) {
                 for (int i = 0; i < route.points.size(); i++) {
-                    double d = distance(route.points.get(i).latitude,rutaCC08.getPoints().get(i).latitude,route.points.get(i).longitude,rutaCC08.getPoints().get(i).longitude);
-                    System.out.println("Distancia:"+d);
-                    if (d<1000) {
+                    double d = distance(route.points.get(i).latitude, rutaCC08.getPoints().get(i).latitude, route.points.get(i).longitude, rutaCC08.getPoints().get(i).longitude);
+                    System.out.println("Distancia:" + d);
+                    if (d < 1000) {
                         System.out.println("Coincidencia: " + rutacc08C);
                         rutacc08C++;
                     }
@@ -472,40 +616,40 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             //ruta e011
             if (rutae011.getPoints().size() > route.points.size()) {
-                int p = 0;
                 for (int i = 0; i < rutae011.getPoints().size(); i++) {
-                    double d = distance(route.points.get(p).latitude,rutae011.getPoints().get(i).latitude,route.points.get(p).longitude,rutae011.getPoints().get(i).longitude);
-                    System.out.println("Distancia:"+d);
-                    if (route.points.get(p) == null) {
-                        p = 0;
-                    } else if (d<1000) {
-                        System.out.println("Coincidencia: " + rutae011C);
-                        rutae011C++;
-                        p++;
+                    if (route.points.size() > i) {
+                        double d = distance(route.points.get(i).latitude, rutae011.getPoints().get(i).latitude, route.points.get(i).longitude, rutae011.getPoints().get(i).longitude);
+                        System.out.println("Distancia:" + d);
+                        if (d < 1000) {
+                            System.out.println("Coincidencia: " + rutae011C);
+                            rutae011C++;
+                        }
+                        polylineOptions.add(route.points.get(i));
                     }
-                    polylineOptions.add(route.points.get(p));
+
                 }
             } else if (rutae011.getPoints().size() < route.points.size()) {
-                for (int i = 0, p = 0; i < route.points.size(); i++) {
-                    double d = distance(route.points.get(p).latitude,rutae011.getPoints().get(i).latitude,route.points.get(p).longitude,rutae011.getPoints().get(i).longitude);
-                    System.out.println("Distancia:"+d);
-                    if (rutae011.getPoints().get(p) == null) {
-                        p = 0;
-                    } else if (d<1000) {
-                        System.out.println("Coincidencia: " + rutae011C);
-                        rutae011C++;
-                        p++;
+                for (int i = 0; i < route.points.size(); i++) {
+                    if (rutae011.getPoints().size() > i) {
+                        double d = distance(route.points.get(i).latitude, rutae011.getPoints().get(i).latitude, route.points.get(i).longitude, rutae011.getPoints().get(i).longitude);
+                        System.out.println("Distancia:" + d);
+                        if (d < 1000) {
+                            System.out.println("Coincidencia: " + rutae011C);
+                            rutae011C++;
+                        }
+                        polylineOptions.add(route.points.get(i));
                     }
-                    polylineOptions.add(route.points.get(i));
+
                 }
             } else if (rutae011.getPoints().size() == route.points.size()) {
                 for (int i = 0; i < route.points.size(); i++) {
-                    double d = distance(route.points.get(i).latitude,rutae011.getPoints().get(i).latitude,route.points.get(i).longitude,rutae011.getPoints().get(i).longitude);
-                    System.out.println("Distancia:"+d);
-                    if (d<1000) {
+                    double d = distance(route.points.get(i).latitude, rutae011.getPoints().get(i).latitude, route.points.get(i).longitude, rutae011.getPoints().get(i).longitude);
+                    System.out.println("Distancia:" + d);
+                    if (d < 1000) {
                         System.out.println("Coincidencia: " + rutae011C);
                         rutae011C++;
                     }
+
                     polylineOptions.add(route.points.get(i));
                 }
             }
@@ -513,10 +657,30 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             System.out.println("ruta cc08: " + rutacc08C);
             System.out.println("ruta e011: " + rutae011C);
 
-            if(rutacc08C<rutae011C) {
+            if (rutacc08C < rutae011C) {
+                originMarkers.add(mMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                        .title("Empresa 24 de Diciembre S.R.L.")
+                        .snippet("Recorrido de ida")
+                        .position(rutae011.getPoints().get(0))));
+                originMarkers.add(mMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                        .title("Empresa 24 de Diciembre S.R.L.")
+                        .snippet("Recorrido de vuelta")
+                        .position(new LatLng(-16.404306, -71.527379))));
                 polylinePaths.add(mMap.addPolyline(rutae011));
                 polylinePaths.add(mMap.addPolyline(polylineOptions));
-            }else if (rutae011C<rutacc08C) {
+            } else if (rutae011C < rutacc08C) {
+                originMarkers.add(mMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                        .title("Empresa 15 de Agosto S.A.")
+                        .snippet("Recorrido de ida")
+                        .position(rutaCC08.getPoints().get(0))));
+                originMarkers.add(mMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                        .title("Empresa 15 de Agosto S.A.")
+                        .snippet("Recorrido de vuelta")
+                        .position(new LatLng(-16.405891, -71.531619))));
                 polylinePaths.add(mMap.addPolyline(rutaCC08));
                 polylinePaths.add(mMap.addPolyline(polylineOptions));
             }
@@ -529,9 +693,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      * Calculate distance between two points in latitude and longitude taking
      * into account height difference. If you are not interested in height
      * difference pass 0.0. Uses Haversine method as its base.
-     *
+     * <p>
      * lat1, lon1 Start point lat2, lon2 End point el1 Start altitude in meters
      * el2 End altitude in meters
+     *
      * @returns Distance in Meters
      */
     public static double distance(double lat1, double lat2, double lon1,
@@ -541,9 +706,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         double latDistance = Math.toRadians(lat2 - lat1);
         double lonDistance = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(latDistance/2) * Math.sin(latDistance/2)
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
                 + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(lonDistance/2) * Math.sin(lonDistance/2);
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = R * c * 1000; // convert to meters
 
